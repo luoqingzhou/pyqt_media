@@ -53,12 +53,16 @@ class MyUI(QMainWindow, Ui_MainWindow):
 
     def showTotalTime(self):
         # self.timeSlider.setValue(0)
-        self.totalTime = self.player.duration() / 1000
-        self.Slider.setRange(0, int(self.totalTime))
+        # self.totalTime = self.player.duration() / 1000
+        # self.Slider.setRange(0, int(self.totalTime))
+        print(self.player.duration())
+        self.timeSlider.setMaximum(self.player.duration())
         print('total')
 
     def showCurrentTime(self, val):
         # self.timeSlider.setValue(int(val / 1000))
+        print(self.player.position())
+        self.timeSlider.setValue(val)
         print('current')
 
 
