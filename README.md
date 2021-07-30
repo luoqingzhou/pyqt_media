@@ -8,6 +8,7 @@ python版本：3.75
 PyQt5   5.15.4
 
 开发环境：
+
 PyCharm professional 2021.1.1
 
 QtDesigner 5.14.2
