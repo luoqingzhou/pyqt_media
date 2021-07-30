@@ -4,10 +4,11 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QTimer, QRect
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QSlider
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtMultimedia import *
+
 from window_practice import Ui_MainWindow
 
-from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class MyUI(QMainWindow, Ui_MainWindow):
@@ -39,7 +40,9 @@ class MyUI(QMainWindow, Ui_MainWindow):
         self.player.setVideoOutput(self.myvideowidget)  # 视频播放输出的widget，就是上面定义的
 
         self.timer = QTimer()
-        self.timer.setInterval(1000);
+        self.timer.setInterval(1000)
+
+        self.myvideowidget.screenPressed.connect(self.on_screen_pressed)
 
         self.actionLoad.triggered.connect(self.on_actionLoad_triggered)
         self.actionExit.triggered.connect(self.on_actionExit_triggered)
@@ -50,9 +53,10 @@ class MyUI(QMainWindow, Ui_MainWindow):
 
         self.sliderTime.sliderMoved.connect(self.on_silderTime_moved)
         self.sliderTime.sliderReleased.connect(self.on_silderTime_released)
-        self.sliderTime.sliderPressed.connect(self.on_sliderTime_pressed)
+        self.sliderTime.mySliderPressed.connect(self.on_sliderTime_pressed)
 
         self.sliderVolume.sliderMoved.connect(self.volumeChanged)
+        self.sliderVolume.mySliderPressed.connect(self.volumeChanged)
 
         print('init finish')
 
@@ -67,6 +71,24 @@ class MyUI(QMainWindow, Ui_MainWindow):
 
     def on_actionExit_triggered(self):
         sys.exit()
+
+    def on_screen_pressed(self):
+        if self.is_finished:
+            pass
+        else:
+            if not self.is_playing:
+                self.btnStartAndPause.setText('暂停')
+                self.player.play()  # 播放视频
+                self.timer.start()
+                self.is_playing = True
+                self.lblVolumeValue.setText(str(self.player.volume()) + '%')
+                #self.sliderVolume.setValue(self.sliderVolume.maximum())
+                self.sliderTime.setMaximum(self.player.duration())
+            else:
+                self.btnStartAndPause.setText('开始')
+                self.player.pause()  # 播放视频
+                self.is_playing = False
+
 
     def on_btnStartAndPause_clicked(self):
         if not self.is_finished:
@@ -114,8 +136,10 @@ class MyUI(QMainWindow, Ui_MainWindow):
         self.player.play()
         print('released finished')
 
-    def on_sliderTime_pressed(self, e):
-        pass 
+    def on_sliderTime_pressed(self):
+        print('pressed received')
+        self.lblTimeValueUpdate()
+        self.player.setPosition(self.sliderTime.value() / self.player.duration() * self.sliderTime.maximum())
 
     def volumeChanged(self):
         self.player.setVolume(self.sliderVolume.value())

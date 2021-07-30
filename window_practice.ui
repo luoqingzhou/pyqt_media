@@ -25,10 +25,10 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout" stretch="9,1">
        <item>
-        <widget class="QVideoWidget" name="myvideowidget" native="true"/>
+        <widget class="myVideoWidget" name="myvideowidget" native="true"/>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,1,1,1,9,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1,1,0,1,9,1">
          <item>
           <widget class="QPushButton" name="btnStartAndPause">
            <property name="text">
@@ -57,7 +57,10 @@
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="sliderVolume">
+          <widget class="mySlider" name="sliderVolume">
+           <property name="value">
+            <number>99</number>
+           </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -66,12 +69,15 @@
          <item>
           <widget class="QLabel" name="lblVolumeValue">
            <property name="text">
-            <string>0</string>
+            <string>100%</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="sliderTime">
+          <widget class="mySlider" name="sliderTime">
+           <property name="minimum">
+            <number>1</number>
+           </property>
            <property name="maximum">
             <number>99</number>
            </property>
@@ -82,10 +88,10 @@
             <number>10</number>
            </property>
            <property name="value">
-            <number>0</number>
+            <number>2</number>
            </property>
            <property name="sliderPosition">
-            <number>0</number>
+            <number>2</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -138,9 +144,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QVideoWidget</class>
+   <class>mySlider</class>
+   <extends>QSlider</extends>
+   <header>mySlider</header>
+  </customwidget>
+  <customwidget>
+   <class>myVideoWidget</class>
    <extends>QWidget</extends>
-   <header>PyQt5.QtMultimediaWidgets</header>
+   <header>myVideoWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
